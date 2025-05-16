@@ -42,7 +42,7 @@ app.use('/api/:date?', (req, res) => {
   ];
   if (!unix || !utc) {
     res.json({
-      error: 'Inalid Date',
+      error: 'Invalid Date',
     });
   }
   res.json({
@@ -52,7 +52,7 @@ app.use('/api/:date?', (req, res) => {
 });
 
 app.use((req, res, next) => {
-  res.send({ error: 'Invalid Date' });
+  res.err({ error: 'Invalid Date' });
   next();
 });
 
