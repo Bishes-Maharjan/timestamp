@@ -34,8 +34,12 @@ app.get('/api/', function (req, res) {
 app.use('/api/:date?', (req, res) => {
   const { date } = req.params;
 
-  const [unix, utc] = [new Date(date).getTime(), new Date(date).toUTCString()];
-
+  const [unix, utc] = [
+    new Date(date).getTime() || new Date(Number(date)).getTime(),
+    new Date(date).toUTCString() == 'Invalid Date'
+      ? new Date(Number(date)).toUTCString()
+      : new Date(date).toUTCString(),
+  ];
   if (!unix || !utc) {
     res.json({
       error: 'Inalid Date',
@@ -43,7 +47,7 @@ app.use('/api/:date?', (req, res) => {
   }
   res.json({
     unix,
-    utc: utc,
+    utc: utc.toString(),
   });
 });
 
